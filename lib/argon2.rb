@@ -18,6 +18,14 @@ module Argon2
       @secret = options[:secret]
     end
 
+    def create_raw(pass)
+      raise ArgonHashFail, "Invalid password (expected string)" unless
+        pass.is_a?(String)
+        
+      Argon2::Engine.hash_argon2id(
+        pass, @salt, @t_cost, @m_cost, 64)
+    end
+
     def create(pass)
       raise ArgonHashFail, "Invalid password (expected string)" unless
         pass.is_a?(String)
